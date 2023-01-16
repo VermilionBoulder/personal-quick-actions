@@ -28,7 +28,7 @@ class App:
             },
         }
 
-        # list of button names, keys bound to them, function names
+        # list of button names, keys bound to them, function they launch
         self.specific_configs = [
             {
                 "text": "v",
@@ -39,14 +39,14 @@ class App:
             {
                 "text": "y",
                 "label": "Download YouTube video from copied link",
-                "command": modules.youtube_downloader.download_video(),
-                "exit": None,
+                "command": modules.youtube_downloader.download_video,
+                "exit": True,
             },
             {
-                "text": None,
-                "label": None,
-                "command": None,
-                "exit": None,
+                "text": "a",
+                "label": "Take text from clipboard and make it aLtCaPs",
+                "command": modules.alt_caps.alt_caps,
+                "exit": True,
             },
             {
                 "text": "o",
