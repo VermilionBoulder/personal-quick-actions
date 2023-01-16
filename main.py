@@ -1,6 +1,7 @@
+import time
 import tkinter as tk
 import tkinter.font as tk_font
-import onelab_hardware_details
+import modules
 
 
 class App:
@@ -30,25 +31,28 @@ class App:
         # list of button names, keys bound to them, function names
         self.specific_configs = [
             {
-                "text": "1",
-                "label": "say shit",
-                "command": self.say_shit,
+                "text": "v",
+                "label": "Format VLANs for VLAN ticket",
+                "command": modules.vlan_formatter.format_vlan_text,
                 "exit": True,
             },
             {
-                "text": "a",
-                "label": "button command",
-                "command": self.button_command,
+                "text": "y",
+                "label": "Download YouTube video from copied link",
+                "command": modules.youtube_downloader.download_video(),
+                "exit": None,
             },
             {
-                "text": "Z",
-                "label": "say boobs",
-                "command": self.say_boobs,
+                "text": None,
+                "label": None,
+                "command": None,
+                "exit": None,
             },
             {
                 "text": "o",
                 "label": "Open OneLab page for copied Hardware IDs",
-                "command": onelab_hardware_details.open_onelab_pages,
+                "command": modules.onelab_hardware_details.open_onelab_pages,
+                "exit": True,
             },
         ]
 
@@ -56,12 +60,12 @@ class App:
         height = 20 + 40 * len(self.specific_configs)
         screenwidth = self.root.winfo_screenwidth()
         screenheight = self.root.winfo_screenheight()
-        alignstr = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
-        self.root.geometry(alignstr)
+        align_str = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
+        self.root.geometry(align_str)
         self.define_options()
 
     def define_options(self):
-        # For every button defined in {self.specific_configs} above, add a button and label pair
+        # For every button defined in self.specific_configs above, add a button and label pair
         for idx, config in enumerate(self.specific_configs):
             new_button = tk.Button(self.root, cnf=self.common_config.get("button"), text=config.get("text"),
                                    command=config.get("command"))
@@ -74,28 +78,23 @@ class App:
 
             self.add_binding(config)
 
-        # for binding in self.specific_configs:
-        #     self.add_binding(binding)
-
     def add_binding(self, binding):
-        # self.root.bind(f"<KeyPress-{binding.get('text')}>", binding.get("command"))
-        self.root.bind(
-            sequence=f"<KeyPress-{binding.get('text')}>",
-            func=(lambda event: f"{binding.get('command')()}"),
-            add=True
-        )
+        if binding.get("exit"):
+            self.root.bind(
+                sequence=f"<KeyPress-{binding.get('text')}>",
+                func=(lambda event: [binding.get('command')(), self.manually_destroy_root()]),
+                add=True
+            )
+        else:
+            self.root.bind(
+                sequence=f"<KeyPress-{binding.get('text')}>",
+                func=(lambda event: binding.get('command')()),
+                add=True
+            )
 
-    # def bindings(self):
-    #     self.root.bind("1", lambda event: self.button_command())
-
-    def button_command(self):
-        print("command")
-
-    def say_shit(self):
-        print("shit")
-
-    def say_boobs(self):
-        print("boobs")
+    def manually_destroy_root(self):
+        time.sleep(0.3)
+        self.root.destroy()
 
 
 if __name__ == "__main__":
