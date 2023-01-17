@@ -86,7 +86,9 @@ class App:
         if binding.get("exit"):
             self.root.bind(
                 sequence=f"<KeyPress-{binding.get('text')}>",
-                func=(lambda event: [binding.get('command')(), self.manually_destroy_root()]),
+                func=(lambda event: [self.root.iconify(),
+                                     binding.get('command')(),
+                                     self.manually_destroy_root()]),
                 add=True
             )
         else:
