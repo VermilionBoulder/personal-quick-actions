@@ -31,27 +31,9 @@ class App:
         # list of button names, keys bound to them, function they launch
         self.specific_configs = [
             {
-                "text": "v",
-                "label": "Format VLANs for VLAN ticket",
-                "command": vlan_formatter.format_vlan_text,
-                "exit": True,
-            },
-            {
                 "text": "y",
                 "label": "Download YouTube video from copied link",
                 "command": youtube_downloader.download_video,
-                "exit": True,
-            },
-            {
-                "text": "a",
-                "label": "Take text from clipboard and make it aLtCaPs",
-                "command": alt_caps.alt_caps,
-                "exit": True,
-            },
-            {
-                "text": "o",
-                "label": "Open OneLab page for copied Hardware IDs",
-                "command": onelab_hardware_details.open_onelab_pages,
                 "exit": True,
             },
         ]
